@@ -114,7 +114,23 @@ try:
 
     #   MEDIDAS  DE DISPERSÃO # MEDE A VARIAÇÃO DOS DADOS EM RELAÇÃO ÀS MÉDIDAS DE POSIÇÃO
     #   VARIÂNCIA: é a média dos quadrados das diferenças entre cada valor e a média dos valores. sempre uma potencia de 2, ou seja, sempre positiva.
-    variancia = 
+    variancia = np.var(array_roubo_veiculo) # VAR é a variância, que é a média dos quadrados das diferenças entre cada valor e a média dos valores
+
+    # DISTANCIA ENTRE MÉDIA E VARIÂNCIA
+    distancia_var_media = variancia / (media_roubo_veiculo ** 2)
+
+#   DESVIO PADRÃO: é a raiz quadrada da variância, mede a dispersão dos dados em relação à média. É uma medida de dispersão mais intuitiva, pois está na mesma unidade dos dados originais.
+    desvio_padrao = np.std(array_roubo_veiculo) #   STD é o desvio padrão, que é a raiz quadrada da variância
+
+#   COEFICIENTE DE VARIAÇÃO: é o desvio padrão dividido pela média, multiplicado por 100, expressando a variabilidade relativa dos dados em relação à média.
+    coef_variacao = (desvio_padrao / media_roubo_veiculo) * 100  # Coeficiente de Variação: é o desvio padrão dividido pela média, multiplicado por 100, expressando a variabilidade relativa dos dados em relação à média.
+    
+    print('\nMedidas de Dispersão')
+    print(67*'~')
+    print(f'Variância: {variancia:.3f}')
+    print(f'Distância entre média e variância: {distancia_var_media:.3f}')
+    print(f'Desvio Padrão: {desvio_padrao:.3f}')
+    print(f'Coeficiente de Variação: {coef_variacao:.3f}%')
 
 #   DESCOBRINDO oUTLIERS
 
