@@ -37,24 +37,21 @@ try:
     array_roubo_veiculo = np.array(df_roubo_veiculo['roubo_veiculo'])
     media_roubo_veiculo = np.mean(array_roubo_veiculo)
     mediana_roubo_veiculo = np.median(array_roubo_veiculo)
-
     distancia= abs((media_roubo_veiculo - mediana_roubo_veiculo) / mediana_roubo_veiculo)
 
-    # print("\nMEDIDAS DE POSIÇÃO")
 
-    # print(f'Média: {media_roubo_veiculo}')
-
-    # print(f'Mediana: {mediana_roubo_veiculo}')
-
-    # print(f'Distância entre a média e mediana {distancia:.3f}')
-
-#   MEDIDAS DE POSOÇÃO
+#   MEDIDAS DE POSIÇÃO
 
 #   QUARTIL
 
     q1 = np.quantile(array_roubo_veiculo, 0.25, method='weibull')
     q2 = np.quantile(array_roubo_veiculo, 0.50, method='weibull')
     q3 = np.quantile(array_roubo_veiculo, 0.75, method='weibull')
+
+    # print("\nMEDIDAS DE POSIÇÃO")
+    # print(f'Média: {media_roubo_veiculo}')
+    # print(f'Mediana: {mediana_roubo_veiculo}')
+    # print(f'Distância entre a média e mediana {distancia:.3f}')
 
 #   MEDIDAS DE DISPERSÃO
 
@@ -91,11 +88,10 @@ try:
     iqr = q3 - q1
 
     limite_superior = q3 + (1.5 * iqr)
-    limite_inferio = q1 - (1.5 * iqr) 
+    limite_inferio = q1 - (1.5 * iqr)
 
     # print("\nLimites - Medidas de Posição")
     # print(f'Limites inferior: {limite_inferio}')
-
     # print(f'Limites superior: {limite_superior}')
 
     print("\nMEDIDAS")
@@ -253,3 +249,8 @@ try:
 except Exception as e:
     print(f'Erro ao plotar {e}')
     exit()
+
+#   se os dados forem heterogeêneos, ou seja, se os dados forem muito diferentes entre si,
+#   o desvio padrão será maior, indicando que os dados estão mais dispersos em relação à média.
+#   Se os dados forem homogêneos, o desvio padrão será menor,
+#   indicando que os dados estão mais próximos da média.
