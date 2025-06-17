@@ -112,6 +112,10 @@ try:
     print(f'Mediana: {mediana_roubo_veiculo}')
     print(f'distancia média e mediana: {distancia}')
 
+    #   MEDIDAS  DE DISPERSÃO # MEDE A VARIAÇÃO DOS DADOS EM RELAÇÃO ÀS MÉDIDAS DE POSIÇÃO
+    #   VARIÂNCIA: é a média dos quadrados das diferenças entre cada valor e a média dos valores. sempre uma potencia de 2, ou seja, sempre positiva.
+    variancia = 
+
 #   DESCOBRINDO oUTLIERS
 
     df_roubo_veiculo_outliers_superiores = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] > limite_superior]
