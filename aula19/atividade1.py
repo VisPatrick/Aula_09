@@ -1,6 +1,7 @@
 #   pip install sqlalchemy pymysql pandas matplotlib numpy
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt  # biblioteca de gráficos
 
 try:
     ENDERECO_DADOS = 'https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCisp.csv'
@@ -38,9 +39,9 @@ try:
     minimo = np.min(array_estelionatos)
     amplitude_total = maximo - minimo # amplitude total é a diferença entre o maior e o menor valor
 
-    print(f'Máximo: {maximo}')
-    print(f'Mínimo: {minimo}')
-    print(f'Amplitude Total: {amplitude_total}')
+    # print(f'Máximo: {maximo}')
+    # print(f'Mínimo: {minimo}')
+    # print(f'Amplitude Total: {amplitude_total}')
 
 #   MEDIDAS DE POSIÇÃO
 
@@ -83,7 +84,33 @@ try:
     print('\nMEDIDAS')
     print(67*'=')
     print(f'Limite Inferior: {limite_inferio:.2f}')
-    print(f'Menor ')
+    print(f'Menor Valor: {minimo:.2f}')
+    print(f'Q1: {q1}')
+    print(f'Q2: {q2}')
+    print(f'Q3: {q3}')
+    print(f'IQR: {iqr:.2f}')    # interquartil range é a diferença entre o terceiro quartil e o primeiro quartil
+    print(f'Maior Valor: {maximo:.2f}')
+    print(f'Limite Superior: {limite_superior:.2f}')
+    print(f'Média: {media_estelionato:.2f}')
+    print(f'Mediana: {mediana_estelionato:.2f}')
+    print(f'Distância entre médias: {distancia:.2f}')
+
+#   MEDIDAS DE DISPERSÃO  # dispersão é a variação dos dados em relação à média
+    #   VARIÂNCIA
+    variancia = np.var(array_estelionatos)
+    #   DISTANCIA ENTRE MÉDIA E VARIÂNCIA
+    distancia_var_media = variancia / media_estelionato
+    #   DESVIO PADRÃO
+    desvio_padrao = np.std(array_estelionatos)
+    #   COEFICIENTE DE VARIAÇÃO
+    coeficiente_variacao = (desvio_padrao / media_estelionato) * 100    # coeficiente de variação é a relação entre o desvio padrão e a média, expressa em porcentagem
+
+    print('\nMEDIDAS DE DISPERSÃO')
+    print(67*'=')
+    print(f'Variância: {variancia:.2f}')
+    print(f'Distância entre média e variância: {distancia_var_media:.2f}')
+    print(f'Desvio Padrão: {desvio_padrao:.2f}')
+    print(f'Coeficiente de Variação: {coeficiente_variacao:.2f}%')
 
 #   OUTILIERS
     df_estelionato_outliers_inferior = df_ocorrencia[df_ocorrencia['estelionato'] < limite_inferio]
@@ -108,3 +135,84 @@ try:
 
 except Exception as u:
     print('Erro de informações: {u}')
+
+#   PLOTANDO GRÁFICO COM MATPLOTLIB
+try:
+    plt.subplots(2, 2, figsize=(16, 10))
+    plt.suptitle('Análise de roubo de veículos no RJ')
+
+    # POSIÇÃO 01
+    # BOXPLOT
+    plt.subplot(2, 2, 1)
+    plt.boxplot(array_estelionatos, vert=False, showmeans=True)
+    plt.title("Boxplot dos Dados")
+#   POSIÇÃO 02
+    # MEDIDAS
+    # Exibição de informações estatísticas
+    plt.subplot(2, 2, 2)
+    plt.title('Medidas Estatísticas')
+    plt.text(0.1, 0.9, f'Limite inferior: {limite_inferio}', fontsize=10)
+    plt.text(0.1, 0.8, f'Menor valor: {minimo}', fontsize=10)
+    plt.text(0.1, 0.7, f'Q1: {q1}', fontsize=10)
+    plt.text(0.1, 0.6, f'Mediana: {mediana_estelionato}', fontsize=10)
+    plt.text(0.1, 0.5, f'Q3: {q3}', fontsize=10)
+    plt.text(0.1, 0.4, f'Média: {media_estelionato:.3f}', fontsize=10)
+    plt.text(0.1, 0.3, f'Maior valor: {maximo}', fontsize=10)
+    plt.text(0.1, 0.2, f'Limite superior: {limite_superior}', fontsize=10)
+    plt.text(0.5, 0.9, f'Distância Média e Mediana: {distancia:.4f}', fontsize=10)
+    plt.text(0.5, 0.8, f'IQR: {iqr}', fontsize=10)
+    plt.text(0.5, 0.7, f'Amplitude Total: {amplitude_total}', fontsize=10)
+
+# POSIÇÃO 03
+    # OUTLIERS INFERIORES
+    plt.subplot(2, 2, 3)
+    plt.title('Outliers Inferiores')
+    # Se o DataFrame do outliers não estiver vazio
+    if not df_estelionato_outliers_inferior.empty:
+        dados_inferiores = df_estelionato_outliers_inferior.sort_values(by='estelionato', ascending=True)     # crescente
+        # Gráfico de Barras
+        plt.barh(dados_inferiores['munic'], dados_inferiores['estelionato'])
+    else:
+        # Se não houver outliers
+        plt.text(0.5, 0.5, 'Sem Outliers Inferiores', ha='center', va='center', fontsize=12)
+        plt.title('Outilers Inferiores')
+        plt.xticks([])
+        plt.yticks([])
+
+# POSIÇÃO 04
+    # OUTLIERS SUPERIORES
+    plt.subplot(2, 2, 4)
+    plt.title('Outliers Superiores')
+    if not df_estelionato_outliers_superior.empty:
+        dados_superiores = df_estelionato_outliers_superior.sort_values(by='estelionato', ascending=True)
+
+        # Cria o gráfico e guarda as barras
+        barras = plt.barh(dados_superiores['munic'], dados_superiores['estelionato'], color='black')
+        # Adiciona rótulos nas barras
+        plt.bar_label(barras, fmt='%.0f', label_type='edge', fontsize=8, padding=2)
+
+        # Diminui o tamanho da fonte dos eixos
+        plt.xticks(fontsize=8)
+        plt.yticks(fontsize=8)
+
+        plt.title('Outliers Superiores')
+        plt.xlabel('Total Roubos de Veículos')
+    else:
+        # Se não houver outliers superiores, exibe uma mensagem no lugar.
+        plt.text(0.5, 0.5, 'Sem outliers superiores', ha='center', va='center', fontsize=12)
+        plt.title('Outliers Superiores')
+        plt.xticks([])
+        plt.yticks([])
+
+
+
+
+
+
+
+    plt.tight_layout()
+    plt.show()
+except Exception as e:
+
+    print(f"Erro ao plotar: {e}")
+    exit()
