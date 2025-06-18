@@ -116,11 +116,11 @@ try:
     distancia_var_media = variancia / (media_roubo_veiculo ** 2)
 
 #   DESVIO PADRÃO: é a raiz quadrada da variância, mede a dispersão dos dados em relação à média. É uma medida de dispersão mais intuitiva, pois está na mesma unidade dos dados originais.
-    desvio_padrao = np.std(array_roubo_veiculo) #   STD é o desvio padrão, que é a raiz quadrada da variância
+    desvio_padrao = np.std(array_roubo_veiculo)  # STD é o desvio padrão, que é a raiz quadrada da variância
 
 #   COEFICIENTE DE VARIAÇÃO: é o desvio padrão dividido pela média, multiplicado por 100, expressando a variabilidade relativa dos dados em relação à média.
     coef_variacao = (desvio_padrao / media_roubo_veiculo) * 100  # Coeficiente de Variação: é o desvio padrão dividido pela média, multiplicado por 100, expressando a variabilidade relativa dos dados em relação à média.
-    
+
     print('\nMedidas de Dispersão')
     print(67*'~')
     print(f'Variância: {variancia:.3f}')
